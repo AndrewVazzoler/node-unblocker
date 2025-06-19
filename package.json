@@ -1,0 +1,16 @@
+{
+  "name": "node-unblocker",
+  "description": "Web proxy for evading internet censorship",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "express": "^5.1.0",
+    "unblocker": "^2.3.1"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}

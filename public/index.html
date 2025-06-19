@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Node Unblocker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- header font -->
+    <link
+      href="//fonts.googleapis.com/css?family=Orbitron"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <!-- body font -->
+    <link
+      href="//fonts.googleapis.com/css?family=Droid+Sans"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <style type="text/css">
+      /* fonts */
+      body {
+        font-family: "Droid Sans", arial, serif;
+        letter-spacing: 1px;
+      }
+
+      h1 {
+        font-family: "Orbitron", arial, serif;
+        letter-spacing: 2px;
+      }
+
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        letter-spacing: 2px;
+        font-weight: normal;
+      }
+
+      /* colors */
+      body {
+        background-color: #000306;
+        color: white;
+      }
+
+      .container {
+        background-color: #3f4038;
+        border-color: #5b3e38;
+      }
+
+      a {
+        color: #62becb;
+      }
+
+      a:hover {
+        color: #82deeb;
+      }
+
+      #error {
+        border: 1px dotted white;
+        background: brown;
+      }
+
+      /* stripes and borders */
+
+      .main {
+        background-repeat: repeat-x;
+      }
+      .container {
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        overflow: hidden;
+        /* otherwise the background image appears on top of the curved border */
+      }
+
+      /* layout */
+      body {
+        text-align: center;
+      }
+
+      .container {
+        width: 760px;
+        margin: 40px auto;
+        text-align: left;
+        max-width: calc(100% - 10px);
+      }
+
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin-bottom: 0;
+      }
+
+      ul {
+        line-height: 150%;
+      }
+
+      ul,
+      p {
+        margin-top: 5px;
+        margin-bottom: 0;
+      }
+
+      .main {
+        padding: 10px;
+      }
+
+      #error {
+        display: none;
+        padding: 5px 10px;
+        margin: 30px 10px;
+      }
+
+      form ul {
+        list-style-type: none;
+        padding-left: 25px;
+      }
+
+      input[type="text"] {
+        width: 640px;
+        max-width: calc(100% - 8em);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <h1>Node Unblocker</h1>
+
+      <div id="error"></div>
+
+      <form action="no-js" method="get" id="unblocker-form">
+        <p>
+          URL or Search:
+          <input type="text" id="url" name="url" autofocus="autofocus" />
+          <input type="submit" value="Go" />
+        </p>
+      </form>
+    </div>
+    <script>
+      function $(id) {
+        return document.getElementById(id);
+      }
+
+      $("unblocker-form").onsubmit = function () {
+        var url = $("url").value;
+        if (url.substr(0, 4) != "http") {
+          if (url.includes(".") && !url.includes(" ")) {
+            url = "https://" + url;
+          } else url = "https://google.com/search?q=" + encodeURIComponent(url);
+        }
+        window.location =
+          location.protocol + "//" + location.host + "/proxy/" + url;
+        return false;
+      };
+
+      function checkError() {
+        var search = window.location.search;
+        var start = search.indexOf("error=");
+        if (start > -1) {
+          var stop = search.indexOf("&", start);
+          if (stop == -1) {
+            stop = undefined;
+          }
+          // +6 for "error="
+          var err = search.substr(start + 6, stop);
+          var $error = $("error");
+          $error.innerText = $error.textContent = decodeURIComponent(err);
+          $error.style.display = "block";
+        }
+      }
+
+      window.onload = function () {
+        $("url").focus();
+        checkError();
+      };
+    </script>
+  </body>
+</html>
